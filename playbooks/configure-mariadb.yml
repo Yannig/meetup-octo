@@ -1,0 +1,20 @@
+---
+
+- import_playbook: "group-machine.yml"
+
+- name: "Configure MariaDB"
+  hosts: maria
+  gather_facts: no
+  tasks:
+    - name: "Configure wordpress DB"
+      mysql_db:
+        name: "wordpress"
+        state: present
+
+    - name: "Configure wordpress user"
+      mysql_user:
+        name: "wordpress"
+        password: "Word.Pr3ss"
+        priv: "wordpress.*:ALL"
+        host: "{{ item }}.{{ docker_network_name|lower }}"
+      with_items: "{{ groups['front'] }}"

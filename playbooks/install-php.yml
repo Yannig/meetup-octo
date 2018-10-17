@@ -1,0 +1,29 @@
+---
+
+- import_playbook: "group-machine.yml"
+
+- name: "Install PHP"
+  hosts: front
+  gather_facts: no
+  tasks:
+    - name: "Install EPEL release"
+      yum:
+        name: "epel-release"
+        state: present
+
+    - name: "Install remi release"
+      yum:
+        name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+        state: present
+
+    - name: "Install php 7.2"
+      yum:
+        name: "php,php-cli,php-gd,php-mysql"
+        enablerepo: "remi-php72"
+        state: present
+
+    - name: "Start apache"
+      service:
+        name: "httpd"
+        state: started
+        enabled: yes

@@ -1,0 +1,25 @@
+---
+
+- name: "Install Wordpress"
+  hosts: front
+  gather_facts: no
+  tasks:
+    - name: "Install unzip"
+      yum:
+        name: "unzip"
+        state: present
+
+    - name: "Install Wordpress"
+      unarchive:
+        owner: "apache"
+        group: "apache"
+        src: "wordpress/wordpress-4.9.8-fr_FR.zip"
+        dest: "/var/www/html"
+
+    - name: "Configure Wordpress"
+      template:
+        owner: "apache"
+        group: "apache"
+        mode: "0600"
+        src: "wordpress/wp-config.php.j2"
+        dest: "/var/www/html/wordpress/wp-config.php"

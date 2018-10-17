@@ -1,0 +1,19 @@
+---
+
+- name: "Group machine"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Set front group"
+      add_host:
+        name: "front-{{ item }}"
+        groups: "front"
+      changed_when: no
+      with_sequence: count={{front_count}}
+
+    - name: "Set maria group"
+      add_host:
+        name: "maria-{{ item }}"
+        groups: "maria"
+      changed_when: no
+      with_sequence: count={{maria_count}}

@@ -1,0 +1,33 @@
+---
+
+- name: "Create env"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Création du network"
+      docker_network:
+        name: "{{docker_network_name}}"
+
+    - name: "Create front"
+      docker_container:
+        name:       "front-{{ item }}"
+        hostname:   "front-{{ item }}.{{ docker_network_name|lower }}"
+        image:      "centos/systemd"
+        networks: [ { name: "{{ docker_network_name }}" } ]
+        volumes:    [ '/run', '/sys/fs/cgroup' ]
+        command:    "/usr/lib/systemd/systemd"
+        privileged: yes
+        state:      started
+      with_sequence: count={{front_count}}
+
+    - name: "Create maria"
+      docker_container:
+        name:       "maria-{{ item }}"
+        hostname:   "maria-{{ item }}.{{ docker_network_name|lower }}"
+        image:      "centos/systemd"
+        networks: [ { name: "{{ docker_network_name }}" } ]
+        volumes:    [ '/run', '/sys/fs/cgroup' ]
+        command:    "/usr/lib/systemd/systemd"
+        privileged: yes
+        state:      started
+      with_sequence: count={{maria_count}}

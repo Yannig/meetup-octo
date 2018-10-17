@@ -1,0 +1,18 @@
+---
+
+- import_playbook: "group-machine.yml"
+
+- name: "Install MariaDB"
+  hosts: maria
+  gather_facts: no
+  tasks:
+    - name: "Install MariaDB"
+      yum:
+        name: "mariadb-server,MySQL-python"
+        state: present
+
+    - name: "Start MariaDB"
+      service:
+        name: "mariadb"
+        enabled: yes
+        state: started
