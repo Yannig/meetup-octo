@@ -1,0 +1,7 @@
+---
+
+ansible_connection: "docker"
+
+front_count: 1
+maria_count: 1
+docker_network_name: "meetup"
