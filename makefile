@@ -8,3 +8,9 @@ all: play-create-env play-install-php play-install-mariadb play-configure-mariad
 play-%:
 	$(ANSIBLE_CMD) playbooks/group-machine.yml playbooks/$*.yml
 
+
+cow-say:
+	ANSIBLE_NOCOWS=0 $(ANSIBLE_CMD) playbooks/hello-people.yml
+
+turkey-say:
+	ANSIBLE_NOCOWS=0 ANSIBLE_COW_SELECTION=turkey $(ANSIBLE_CMD) playbooks/hello-people.yml

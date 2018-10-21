@@ -1,0 +1,9 @@
+---
+
+- name: "Hello people"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Hello there"
+      debug:
+        msg: "Coucou"
