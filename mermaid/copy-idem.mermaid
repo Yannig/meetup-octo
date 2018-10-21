@@ -1,0 +1,13 @@
+sequenceDiagram
+  participant A as Ansible
+  participant H as Host
+  A -->> H: HOME de l'utilisateur ?
+  H -->> A: /home/yannig
+  A -->> H: Création répertoire temporaire
+  A -->> H: Vérification présence fichier
+  H -->> A: Le fichier existe avec le bon contenu
+  A -->> A: Création fichier autoporteur (file)
+  A -->> H: Dépose fichier autoporteur (file)
+  A -->> H: Lancement du fichier autoporteur
+  H -->> A: Résultat du lancement
+  A -->> H: Suppression répertoire temporaire
