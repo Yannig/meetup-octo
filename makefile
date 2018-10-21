@@ -1,4 +1,6 @@
 ANSIBLE_CMD=ansible-playbook -i inventaire/host.ini
+ANSIBLE_STRATEGY=mitogen_linear
+ANSIBLE_STRATEGY_PLUGINS=/home/yannig/dev/mitogen/ansible_mitogen/plugins
 
 clean:
 	rm -f playbooks/*.retry
@@ -8,6 +10,10 @@ all: play-create-env play-install-php play-install-mariadb play-configure-mariad
 play-%:
 	$(ANSIBLE_CMD) playbooks/group-machine.yml playbooks/$*.yml
 
+mitogen: mito-create-env mito-install-php mito-install-mariadb mito-configure-mariadb mito-install-wordpress
+
+mito-%:
+	ANSIBLE_STRATEGY=$(ANSIBLE_STRATEGY) ANSIBLE_STRATEGY_PLUGINS=$(ANSIBLE_STRATEGY_PLUGINS) $(ANSIBLE_CMD) playbooks/group-machine.yml playbooks/$*.yml
 
 cow-say:
 	ANSIBLE_NOCOWS=0 $(ANSIBLE_CMD) playbooks/hello-people.yml
