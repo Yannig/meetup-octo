@@ -5,12 +5,12 @@ ANSIBLE_STRATEGY_PLUGINS=/home/yannig/dev/mitogen/ansible_mitogen/plugins
 clean:
 	rm -f playbooks/*.retry
 
-all: play-create-env play-install-php play-install-mariadb play-configure-mariadb play-install-wordpress
+linear-strategy: play-create-env play-install-php play-install-mariadb play-configure-mariadb play-install-wordpress
 
 play-%:
 	$(ANSIBLE_CMD) playbooks/group-machine.yml playbooks/$*.yml
 
-mitogen: mito-create-env mito-install-php mito-install-mariadb mito-configure-mariadb mito-install-wordpress
+mitogen-strategy: mito-create-env mito-install-php mito-install-mariadb mito-configure-mariadb mito-install-wordpress
 
 mito-%:
 	ANSIBLE_STRATEGY=$(ANSIBLE_STRATEGY) ANSIBLE_STRATEGY_PLUGINS=$(ANSIBLE_STRATEGY_PLUGINS) $(ANSIBLE_CMD) playbooks/group-machine.yml playbooks/$*.yml
